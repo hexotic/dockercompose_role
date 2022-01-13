@@ -1,6 +1,6 @@
 ---
 galaxy_info:
   role_name: docker_role
-  author: Chris
+  author: Projet03
   description: Ansible docker role
-  company: Chris
+  company: Blabla

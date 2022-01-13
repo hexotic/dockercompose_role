@@ -1,44 +1,20 @@
 # Tasks for the role
 
-# ----- Install docker 
-  - name: "generate install script"
-    template:
-      src: templates/docker_install.sh.j2
-      dest: /home/{{ ansible_user }}/docker_install.sh
+  - name: "Download install script"
+    command: 'sh curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
 
-  - name: "Exec docker install"
-    command: 'sh /home/{{ ansible_user }}/docker_install.sh'
+  - name: "Chmod docker-compose"
+    command: 'chmod +x /usr/local/bin/docker-compose'
 
-  - name: "Enable & start docker"
-    service:
-      name: docker
-      state: started
-      enabled: yes
-
-  - name: "Add user to group docker"
-    user:
-      name: "{{ ansible_user }}"
-      append: yes
-      groups:
-        - docker
-
-# ----- Install pkg for docker container module
-  - name: download pip script
-    get_url:
-      url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
-      dest: /tmp/get-pip.py
-    when: ansible_distribution == "CentOS"
-
-  - name: install python-pip
-    command: python2.7 /tmp/get-pip.py
-    when: ansible_distribution == "CentOS"
+  - name: "Create symbolic link"
+    command: 'ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose'
 
   - name: install pip3
     package:
       name: python3-pip
       state: present
 
-  - name: install docker.py module
+  - name: install docker compose module
     pip:
-      name: docker-py
+      name: docker-compose
       state: present
