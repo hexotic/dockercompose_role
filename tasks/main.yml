@@ -1,13 +1,13 @@
 # Tasks for the role
 
   - name: "Download install script"
-    command: 'sh curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
+    command: 'curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
 
   - name: "Chmod docker-compose"
     command: 'chmod +x /usr/local/bin/docker-compose'
 
   - name: "Create symbolic link"
-    command: 'ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose'
+    command: 'ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose'
 
   - name: install pip3
     package:
